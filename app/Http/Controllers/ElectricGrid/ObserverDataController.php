@@ -11,49 +11,25 @@ use Illuminate\Support\Facades\DB;
 class ObserverDataController extends Controller
 {
 
-    public function weather() {
+    public function weather(Request $request) {
         $data = DB::connection()->table('weather')->select()->get();
-        $res = array();
-        foreach ($data as $one) {
-            $tmp = array();
-            $tmp['type'] = 'weathers';
-            $tmp['id'] = $one->weather_id;
-            $tmp['attributes'] = $one;
-            $res[] = $tmp;
-        }
         return response()
-            ->json(['data'=>$res])
-            ->header( 'Access-Control-Allow-Origin', 'http://localhost:4200');
+            ->json($data)
+            ->setCallback($request->input('callback'));
     }
 
-    public function linesStatus() {
+    public function linesStatus(Request $request) {
         $data = DB::connection()->table('line_status')->select()->get();
-        $res = array();
-        foreach ($data as $one) {
-            $tmp = array();
-            $tmp['type'] = 'line-statuses';
-            $tmp['id'] = $one->line_status_id;
-            $tmp['attributes'] = $one;
-            $res[] = $tmp;
-        }
         return response()
-            ->json(['data'=>$res])
-            ->header( 'Access-Control-Allow-Origin', 'http://localhost:4200');
+            ->json($data)
+            ->setCallback($request->input('callback'));
     }
 
-    public function gas() {
+    public function gas(Request $request) {
         $data = DB::connection()->table('gas')->select()->get();
-        $res = array();
-        foreach ($data as $one) {
-            $tmp = array();
-            $tmp['type'] = 'gas';
-            $tmp['id'] = $one->gas_id;
-            $tmp['attributes'] = $one;
-            $res[] = $tmp;
-        }
         return response()
-            ->json(['data'=>$res])
-            ->header( 'Access-Control-Allow-Origin', 'http://localhost:4200');
+            ->json($data)
+            ->setCallback($request->input('callback'));
     }
 
 }
