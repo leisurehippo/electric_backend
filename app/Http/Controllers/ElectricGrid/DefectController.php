@@ -11,16 +11,35 @@ use Illuminate\Support\Facades\DB;
 class DefectController extends Controller
 {
     public function defectsLines(Request $request){
-        $data = DB::connection()->table('defect_line')->select()->get();
-        return response()
-            ->json($data)
-            ->setCallback($request->input('callback'));
+        $defectLineId = $request->input('searchDefectLine');
+        if (empty($defectLineId)) {
+            $data = DB::connection()->table('defect_line')->select()->get();
+            return response()
+                ->json($data)
+                ->setCallback($request->input('callback'));
+
+        } else{
+            $data = DB::connection()->table('defect_line')->select()->where('device_id',$defectLineId)->get();
+            return response()
+                ->json($data)
+                ->setCallback($request->input('callback'));
+
+        }
     }
 
     public function defectsTransformers(Request $request){
-        $data = DB::connection()->table('defect_transformer')->select()->get();
-        return response()
-            ->json($data)
-            ->setCallback($request->input('callback'));
+        $defectTransformersId= $request->input('searchDefectTransformer');
+        if (empty($defectTransformersId)) {
+            $data = DB::connection()->table('defect_transformer')->select()->get();
+            return response()
+                ->json($data)
+                ->setCallback($request->input('callback'));
+        } else{
+            $data = DB::connection()->table('defect_transformer')->select()->where('device_id', $defectTransformersId)->get();
+            return response()
+                ->json($data)
+                ->setCallback($request->input('callback'));
+        }
+
     }
 }

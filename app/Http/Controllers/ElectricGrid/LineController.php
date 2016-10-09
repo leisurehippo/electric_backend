@@ -11,9 +11,18 @@ use Illuminate\Support\Facades\DB;
 class LineController extends Controller
 {
     public function lines(Request $request){
-        $data = DB::connection()->table('line')->select()->get();
-        return response()
-            ->json($data)
-            ->setCallback($request->input('callback'));
+        $lineID = $request->input('LineId');
+        if(empty($lineID)){
+            $data = DB::connection()->table('line')->select()->get();
+            return response()
+                ->json($data)
+                ->setCallback($request->input('callback'));
+        } else{
+            $data = DB::connection()->table('line')->select()->where('device_id', $lineID)->get();
+            return response()
+                ->json($data)
+                ->setCallback($request->input('callback'));
+
+        }
     }
 }

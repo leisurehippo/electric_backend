@@ -11,9 +11,18 @@ use Illuminate\Support\Facades\DB;
 class TransformerController extends Controller
 {
     public function transformers(Request $request){
-        $data = DB::connection()->table('transformer')->select()->get();
-        return response()
-            ->json($data)
-            ->setCallback($request->input('callback'));
+        $transformerID = $request->input('transformerId');
+        if (empty($transformerID)) {
+            $data = DB::connection()->table('transformer')->select()->get();
+            return response()
+                ->json($data)
+                ->setCallback($request->input('callback'));
+        } else{
+            $data = DB::connection()->table('transformer')->select()->where('device_id',$transformerID)->get();
+            return response()
+                ->json($data)
+                ->setCallback($request->input('callback'));
+        }
+
     }
 }
