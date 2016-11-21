@@ -25,4 +25,12 @@ class LineController extends Controller
 
         }
     }
+
+    public function linesDeviceCode(Request $request, $id) {
+        $data = DB::connection()->table('line')->select()->where('device_code', $id)->get();
+        return response()
+            ->json($data)
+            ->setCallback($request->input('callback'));
+
+    }
 }

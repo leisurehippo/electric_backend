@@ -27,6 +27,13 @@ class DefectController extends Controller
         }
     }
 
+    public function defectlinesLevel(Request $request , $level) {
+        $data = DB::connection()->table('defect_line')->select()->where('level',$level)->get();
+        return response()
+            ->json($data)
+            ->setCallback($request->input('callback'));
+    }
+
     public function defectsTransformers(Request $request){
         $defectTransformersId= $request->input('searchDefectTransformer');
         if (empty($defectTransformersId)) {

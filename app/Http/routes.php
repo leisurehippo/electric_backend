@@ -20,7 +20,8 @@ Route::group(['namespace' => 'ElectricGrid','prefix' => 'electric', 'middleware'
     Route::get('weathers','ObserverDataController@weather');
     Route::get('line-statuses','ObserverDataController@linesStatus');
     Route::get('gas','ObserverDataController@gas');
-
+    Route::get('lines/deviceCode/{id}', 'LineController@linesDeviceCode');
+    Route::get('defect-lines/{level}', 'DefectController@defectlinesLevel' );
 });
 
 
@@ -51,6 +52,4 @@ Route::group(['namespace' => 'ElectricGrid','prefix' => 'transformer', 'middlewa
 //	Route::get('weather/ssqx','WeatherController@weatherInfo');
 
 });
-
-
 Route::auth();
