@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="0abed6b0-0a75-4b1a-a4f4-4a1cbadb595c" name="server" url="http://10.109.247.121">
+        <fileTransfer host="10.109.247.121" port="22" rootFolder="/opt/lampp/htdocs/electric_backend" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

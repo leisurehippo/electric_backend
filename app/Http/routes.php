@@ -17,12 +17,11 @@ Route::group(['namespace' => 'ElectricGrid','prefix' => 'electric', 'middleware'
     Route::get('defect-transformers','DefectController@defectsTransformers');
     ROute::get('lines','LineController@lines');
     Route::get('transformers','TransformerController@transformers');
-    Route::get('weathers','ObserverDataController@weather');
+    Route::get('weathers','WeatherController@weather');
     Route::get('line-statuses','ObserverDataController@linesStatus');
     Route::get('gas','ObserverDataController@gas');
-    Route::get('lines/deviceCode/{id}', 'LineController@linesDeviceCode');
-    Route::get('defect-lines/{level}', 'DefectController@defectlinesLevel' );
 });
+
 
 
 Route::group(['namespace' => 'ElectricGrid','prefix' => 'transformer', 'middleware' => 'web'],function (){
