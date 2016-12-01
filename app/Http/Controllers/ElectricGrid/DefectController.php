@@ -36,7 +36,7 @@ class DefectController extends Controller
                         $rawData[$i]->time =  Carbon::createFromFormat('Y-m-d H:i', $rawData[$i]->time, 'Europe/London');
 
                         if ($rawData[$i]->time > $defectLineDateStart && $rawData[$i]->time < $defectLineDateEnd) {
-
+                            $rawData[$i]->time = $rawData[$i]->time->toDateTimeString();
                             array_push($newData,$rawData[$i]);
                         }
                     }
@@ -64,12 +64,36 @@ class DefectController extends Controller
     public function defectsTransformers(Request $request){
         $defectTransformersId= $request->input('searchDefectTransformer');
         $defectTransformersLevel = $request->input('searchDefectTransformerLevel');
+        $defectTransformersDateStart =  $request->input('searchDefectTransDateStart');
+        $defectTransformersDateEnd =  $request->input('searchDefectTransDateEnd');
+
         if (empty($defectTransformersId)) {
             if (empty($defectTransformersLevel)) {
-                $data = DB::connection()->table('defect_transformer')->select()->get();
-                return response()
-                    ->json($data)
-                    ->setCallback($request->input('callback'));
+                if (empty($defectTransformersDateStart) && empty($defectTransformersDateEnd))  {
+                    $data = DB::connection()->table('defect_transformer')->select()->get();
+                    return response()
+                        ->json($data)
+                        ->setCallback($request->input('callback'));
+                } else {
+                    $rawData = DB::connection()->table('defect_transformer')->select()->get();
+                    $newData = [];
+                    $defectTransformersDateStart = Carbon::createFromFormat('Y-m-d H:i', $defectTransformersDateStart, 'Europe/London');
+                    $defectTransformersDateEnd = Carbon::createFromFormat('Y-m-d H:i', $defectTransformersDateEnd, 'Europe/London');
+
+                    for ($i = 0; $i < count($rawData); $i++ ) {
+                        $rawData[$i]->time =  Carbon::createFromFormat('d/m/Y H:i', $rawData[$i]->time)->format('Y-m-d H:i'); // 1975-05-21 22:00:00
+                        $rawData[$i]->time =  Carbon::createFromFormat('Y-m-d H:i', $rawData[$i]->time, 'Europe/London');
+
+                        if ($rawData[$i]->time > $defectTransformersDateStart && $rawData[$i]->time < $defectTransformersDateEnd) {
+                            $rawData[$i]->time = $rawData[$i]->time->toDateTimeString();
+                            array_push($newData,$rawData[$i]);
+                        }
+                    }
+                    return response()
+                        ->json($newData)
+                        ->setCallback($request->input('callback'));
+                }
+
             } else {
                 if ($defectTransformersLevel === "一般") {
                     $defectTransformersLevel = $defectTransformersLevel."--";
